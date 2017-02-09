@@ -50,7 +50,7 @@ io.sockets.on('connection', function(socket)
     }
     else
     {
-      xo = 'spectator';
+      xo = 'watcher';
     }
     players[i] = player;
     i++;
@@ -83,7 +83,7 @@ io.sockets.on('connection', function(socket)
     // wining situation
     if( (matrix['11'] == matrix['12'] && matrix['12'] == matrix['13'] && matrix['11'] != '') ||
     (matrix['21'] == matrix['22'] && matrix['22'] == matrix['23'] && matrix['21'] != '') ||
-    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['2-0'] != '') ||
+    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['31'] != '') ||
 
     (matrix['11'] == matrix['21'] && matrix['21'] == matrix['21'] && matrix['11'] != '') ||
     (matrix['12'] == matrix['22'] && matrix['22'] == matrix['32'] && matrix['12'] != '') ||
