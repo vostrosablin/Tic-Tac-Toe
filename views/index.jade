@@ -33,6 +33,62 @@ div(class='container')
        td(width='33%', id='2-2')
    div(class='col-lg-3 col-md-3 col-sm-auto')
 
+
+
+<div class="modal fade" id='modal_turn'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Not your turn</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id='modal_move'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Invalid move</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id='modal_player'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:30px;'>Waiting for the second player</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
 script
   var xo = 'x';
   var gameover = false;
@@ -44,7 +100,7 @@ script
     {
       if(player.mark != xo)
       {
-         $("#stats").html('Not your turn').hide().fadeIn(1000).fadeOut(1000);
+         $('#modal_turn').modal('show');
       }
       else
       {
@@ -54,13 +110,13 @@ script
         }
         else
         {
-          $("#stats").html('Invalid move').hide().fadeIn(1000).fadeOut(1000);
+          $('#modal_move').modal('show');
         }
       }
     }
     else
     {
-      $("#stats").html('Pending extra player...').hide().fadeIn(1000).fadeOut(1000);
+      $('#modal_player').modal('show');
     }
   }
 
