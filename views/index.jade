@@ -1,13 +1,13 @@
 div(class='page-header')
  h1 Tic-Tac-Toe
   small
-    span(style='padding-left:7px;') old classic game
+    span(style='padding-left:7px;') classic game
 div(style="width:100%;height:100%; border:0px dashed #000;min-height: 50px;overflow:hidden;margin:auto;", id="zone")
-  
+
 
   span(style="float:right")
-    h1(id='p1') Waiting...
-    h1(id='p2') Waiting...
+    h1(id='p1') Waiting for a player...
+    h1(id='p2') Waiting for a player...
 p &nbsp;
 
 div(class='container')
@@ -18,17 +18,17 @@ div(class='container')
     div(class='container')
      table(width='100%', border='1')
       tr
-       td(width='33%',id='0-0')
-       td(width='33%',id='0-1')
-       td(width='33%',id='0-2')
+       td(width='33%',id='11')
+       td(width='33%',id='12')
+       td(width='33%',id='13')
       tr
-       td(width='33%',id='1-0')
-       td(width='33%', id='1-1')
-       td(width='33%', id='1-2')
+       td(width='33%',id='21')
+       td(width='33%', id='22')
+       td(width='33%', id='23')
       tr
-       td(width='33%', id='2-0')
-       td(width='33%', id='2-1')
-       td(width='33%', id='2-2')
+       td(width='33%', id='31')
+       td(width='33%', id='32')
+       td(width='33%', id='33')
    div(class='col-lg-3 col-md-3 col-sm-auto')
 
 
@@ -110,11 +110,11 @@ script
   var gameover = false;
   var startGame = false;
 
-  function mark(cords)
+  function label(cords)
   {
     if(startGame)
     {
-      if(player.mark != xo)
+      if(player.label != xo)
       {
          $('#modal_turn').modal('show');
       }
@@ -136,7 +136,7 @@ script
     }
   }
 
-  socket.on('mark', function(sq)
+  socket.on('label', function(sq)
   {
       sq = '#' + sq;
       if($(sq).html() == '')
@@ -156,43 +156,43 @@ script
      }
   });
 
-  $('#0-0').click(function()
+  $('#11').click(function()
   {
-    mark("#0-0");
+    label("#11");
   });
-  $('#0-1').click(function()
+  $('#12').click(function()
   {
-    mark("#0-1");
+    label("#12");
   });
-  $('#0-2').click(function()
+  $('#13').click(function()
   {
-    mark("#0-2");
+    label("#13");
   });
-  // Second row
-  $('#1-0').click(function()
+
+  $('#21').click(function()
   {
-    mark("#1-0");
+    label("#21");
   });
-  $('#1-1').click(function()
+  $('#22').click(function()
   {
-    mark("#1-1");
+    label("#22");
   });
-  $('#1-2').click(function()
+  $('#23').click(function()
   {
-    mark("#1-2");
+    label("#23");
   });
-  // Third Row
-  $('#2-0').click(function()
+
+  $('#31').click(function()
   {
-    mark("#2-0");
+    label("#31");
   });
-  $('#2-1').click(function()
+  $('#32').click(function()
   {
-    mark("#2-1");
+    label("#32");
   });
-  $('#2-2').click(function()
+  $('#33').click(function()
   {
-    mark("#2-2");
+    label("#33");
   });
 
   socket.on('load', function(data)
@@ -202,12 +202,12 @@ script
      console.log(data);
      while( x < data.length )
      {
-       if(data[x].mark == 'x')
+       if(data[x].label == 'x')
        {
          $("#p1").html(data[x].name + ": <span style='color:#C8C8C8'>X</span>");
          showedX = true;
        }
-       else if(data[x].mark == 'o')
+       else if(data[x].label == 'o')
        {
          $("#p2").html(data[x].name + ": <span style='color:#C8C8C8'>O</span>");
          showedO = true;
@@ -225,7 +225,7 @@ script
   socket.on('connect_1', function(data){
     player.id = data.id;
     player.name = data.name;
-    player.mark = data.mark;
+    player.label = data.label;
 
   });
 

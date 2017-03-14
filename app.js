@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var io = require('socket.io');
 
@@ -11,7 +6,7 @@ var app = module.exports = express.createServer();
 var io = io.listen(app);
 // Configuration
 
-io.set('log level', 1); // Turn off annoying polling
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -38,15 +33,15 @@ app.get('/', function(req, res){
 app.listen(3000);
 console.log("Tic-Tac-Toe server started on port %d ", app.address().port);
 
-var xo = 'x'; // change to whats available.
+var xo = 'x';
 var o = false;
 var m_players = [];
-var i = 0; // How many connected players.
+var i = 0; // Number of connetcted players
 
 var matrix = {
-  '0-0': '', '0-1':'', '0-2':'',
-  '1-0': '', '1-1':'', '1-2':'',
-  '2-0': '', '2-1':'', '2-2': ''
+  '11': '', '12':'', '13':'',
+  '21': '', '22':'', '23':'',
+  '31': '', '32':'', '33': ''
 }
 
 io.sockets.on('connection', function(socket)
@@ -55,7 +50,7 @@ io.sockets.on('connection', function(socket)
   socket.on('client_connected', function(player)
   {
     player.id = socket.id;
-    player.mark = xo;
+    player.label = xo;
 
     if(xo == 'x' && o == false)
     {
@@ -64,13 +59,12 @@ io.sockets.on('connection', function(socket)
     }
     else
     {
-      xo = 'spectator';
+      xo = 'wather';
     }
     m_players[i] = player;
     i++;
 
     socket.emit('connect_1', player);
-    //socket.emit('draw_board', board);
     io.sockets.emit('load',m_players);
   });
 
@@ -84,27 +78,27 @@ io.sockets.on('connection', function(socket)
     {
       if (m_players[n].id == socket.id)
       {
-        matrix[coords] = m_players[n].mark;
+        matrix[coords] = m_players[n].label;
       }
       n++;
     }
 
 
     console.log(matrix);
-    // Update clients with the move
-    io.sockets.emit('mark', coords);
+    // Proceed move
+    io.sockets.emit('label', coords);
 
     // Win check
-    if( (matrix['0-0'] == matrix['0-1'] && matrix['0-1'] == matrix['0-2'] && matrix['0-0'] != '') ||
-    (matrix['1-0'] == matrix['1-1'] && matrix['1-1'] == matrix['1-2'] && matrix['1-0'] != '') ||
-    (matrix['2-0'] == matrix['2-1'] && matrix['2-1'] == matrix['2-2'] && matrix['2-0'] != '') ||
+    if( (matrix['11'] == matrix['12'] && matrix['12'] == matrix['13'] && matrix['11'] != '') ||
+    (matrix['21'] == matrix['22'] && matrix['22'] == matrix['23'] && matrix['21'] != '') ||
+    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['31'] != '') ||
 
-    (matrix['0-0'] == matrix['1-0'] && matrix['1-0'] == matrix['2-0'] && matrix['0-0'] != '') ||
-    (matrix['0-1'] == matrix['1-1'] && matrix['1-1'] == matrix['2-1'] && matrix['0-1'] != '') ||
-    (matrix['0-2'] == matrix['1-2'] && matrix['1-2'] == matrix['2-2'] && matrix['0-2'] != '') ||
+    (matrix['11'] == matrix['21'] && matrix['21'] == matrix['31'] && matrix['11'] != '') ||
+    (matrix['12'] == matrix['22'] && matrix['22'] == matrix['32'] && matrix['12'] != '') ||
+    (matrix['13'] == matrix['23'] && matrix['23'] == matrix['33'] && matrix['13'] != '') ||
 
-    (matrix['0-0'] == matrix['1-1'] && matrix['1-1'] == matrix['2-2'] && matrix['0-0'] != '') ||
-    (matrix['2-0'] == matrix['1-1'] && matrix['1-1'] == matrix['0-2'] && matrix['2-0'] != '')
+    (matrix['11'] == matrix['22'] && matrix['22'] == matrix['33'] && matrix['11'] != '') ||
+    (matrix['31'] == matrix['22'] && matrix['22'] == matrix['13'] && matrix['31'] != '')
     )
     {
       io.sockets.emit('gameover', xo);
@@ -121,12 +115,12 @@ io.sockets.on('connection', function(socket)
      {
        if (m_players[j].id == socket.id)
        {
-         if(m_players[j].mark == 'o')
+         if(m_players[j].label == 'o')
          {
            xo = 'o';
            o = false;
          }
-         if(m_players[j].mark == 'x')
+         if(m_players[j].label == 'x')
          {
            xo = 'x';
          }
