@@ -1,0 +1,235 @@
+div(class='page-header')
+ h1 Tic-Tac-Toe
+  small
+    span(style='padding-left:7px;') classic game
+div(style="width:100%;height:100%; border:0px dashed #000;min-height: 50px;overflow:hidden;margin:auto;", id="zone")
+
+
+  span(style="float:right")
+    h1(id='p1') Waiting for a player...
+    h1(id='p2') Waiting for a player...
+p &nbsp;
+
+div(class='container')
+ div(class='row')
+  div(class='col-lg-3 col-md-3 col-sm-auto')
+  div(class='col-lg-6 col-md-6 col-sm-auto')
+   div(class='jumbotron')
+    div(class='container')
+     table(width='100%', border='1')
+      tr
+       td(width='33%',id='11')
+       td(width='33%',id='12')
+       td(width='33%',id='13')
+      tr
+       td(width='33%',id='21')
+       td(width='33%', id='22')
+       td(width='33%', id='23')
+      tr
+       td(width='33%', id='31')
+       td(width='33%', id='32')
+       td(width='33%', id='33')
+   div(class='col-lg-3 col-md-3 col-sm-auto')
+
+
+
+<div class="modal fade" id='modal_turn'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Not your turn</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id='modal_move'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Invalid move</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id='modal_player'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:30px;'>Waiting for the second player</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id='modal_gameover'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Game Over!</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+script
+  var xo = 'x';
+  var gameover = false;
+  var startGame = false;
+
+  function label(cords)
+  {
+    if(startGame)
+    {
+      if(player.label != xo)
+      {
+         $('#modal_turn').modal('show');
+      }
+      else
+      {
+        if($(cords).html() == '')
+        {
+          socket.emit("process_move", cords);
+        }
+        else
+        {
+          $('#modal_move').modal('show');
+        }
+      }
+    }
+    else
+    {
+      $('#modal_player').modal('show');
+    }
+  }
+
+  socket.on('label', function(sq)
+  {
+      sq = '#' + sq;
+      if($(sq).html() == '')
+      {
+        if( xo == 'x')
+        {
+          $(sq).html('X');
+          xo = 'o';
+          $(sq).css('color','#C8C8C8');
+        }
+        else
+        {
+          $(sq).html('O');
+          $(sq).css('color','#C8C8C8');
+          xo = 'x';
+        }
+     }
+  });
+
+  $('#11').click(function()
+  {
+    label("#11");
+  });
+  $('#12').click(function()
+  {
+    label("#12");
+  });
+  $('#13').click(function()
+  {
+    label("#13");
+  });
+
+  $('#21').click(function()
+  {
+    label("#21");
+  });
+  $('#22').click(function()
+  {
+    label("#22");
+  });
+  $('#23').click(function()
+  {
+    label("#23");
+  });
+
+  $('#31').click(function()
+  {
+    label("#31");
+  });
+  $('#32').click(function()
+  {
+    label("#32");
+  });
+  $('#33').click(function()
+  {
+    label("#33");
+  });
+
+  socket.on('load', function(data)
+  {
+     var x = 0;
+     var showedX, showedO = false;
+     console.log(data);
+     while( x < data.length )
+     {
+       if(data[x].label == 'x')
+       {
+         $("#p1").html(data[x].name + ": <span style='color:#C8C8C8'>X</span>");
+         showedX = true;
+       }
+       else if(data[x].label == 'o')
+       {
+         $("#p2").html(data[x].name + ": <span style='color:#C8C8C8'>O</span>");
+         showedO = true;
+       }
+       x++;
+     }
+
+     if(!showedX) $("#p1").html("Waiting...");
+     if(!showedO) $("#p2").html("Waiting...");
+
+     if(showedX && showedO) startGame = true;
+
+  });
+
+  socket.on('connect_1', function(data){
+    player.id = data.id;
+    player.name = data.name;
+    player.label = data.label;
+
+  });
+
+  socket.on('gameover', function(data){
+    gameover = true;
+    $('#modal_gameover').modal('show');
+  });
