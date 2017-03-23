@@ -58,9 +58,9 @@ io.sockets.on('connection', function(socket)
       o = true;
     }
     else
-    {
-      xo = 'wather';
-    }
+   {
+      xo = 'watcher';
+    };
     m_players[i] = player;
     i++;
 
@@ -84,7 +84,7 @@ io.sockets.on('connection', function(socket)
     }
 
 
-    console.log(matrix);
+
     // Proceed move
     io.sockets.emit('label', coords);
 

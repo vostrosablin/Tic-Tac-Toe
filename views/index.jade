@@ -87,7 +87,7 @@ div(class='container')
 </div>
 </div>
 
-<div class="modal fade" id='modal_gameover'>
+<div class="modal fade" id='modal_gameover1'>
 <div class="modal-dialog" role="document">
 <div class="modal-content">
 <div class="modal-header">
@@ -96,7 +96,7 @@ div(class='container')
 </button>
 </div>
 <div class="modal-body">
-<p><h1 style='padding-left:150px;'>Game Over!</h1></p>
+<p><h1 style='padding-left:150px;'>Game Over! &nbsp<span style='color:#C8C8C8'>X</span>&nbsp won</h1></p>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -104,6 +104,25 @@ div(class='container')
 </div>
 </div>
 </div>
+
+<div class="modal fade" id='modal_gameover2'>
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p><h1 style='padding-left:150px;'>Game Over! &nbsp<span style='color:#C8C8C8'>O</span>&nbsp won</h1></p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
 
 script
   var xo = 'x';
@@ -231,5 +250,10 @@ script
 
   socket.on('gameover', function(data){
     gameover = true;
-    $('#modal_gameover').modal('show');
+    if(player.label=='x'){
+      $('#modal_gameover1').modal('show');
+    }
+    else{
+      $('#modal_gameover2').modal('show');
+    }
   });
