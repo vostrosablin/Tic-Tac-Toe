@@ -248,12 +248,12 @@ script
 
   });
 
-  socket.on('gameover', function(data){
+  socket.on('gameover1', function(data){
     gameover = true;
-    if(player.label=='x'){
-      $('#modal_gameover1').modal('show');
-    }
-    else{
-      $('#modal_gameover2').modal('show');
-    }
+    $('#modal_gameover1').modal('show');
+  });
+  
+  socket.on('gameover2', function(data){
+    gameover = true;
+    $('#modal_gameover2').modal('show');
   });

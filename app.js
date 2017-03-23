@@ -89,19 +89,34 @@ io.sockets.on('connection', function(socket)
     io.sockets.emit('label', coords);
 
     // Win check
-    if( (matrix['11'] == matrix['12'] && matrix['12'] == matrix['13'] && matrix['11'] != '') ||
-    (matrix['21'] == matrix['22'] && matrix['22'] == matrix['23'] && matrix['21'] != '') ||
-    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['31'] != '') ||
+    if( (matrix['11'] == matrix['12'] && matrix['12'] == matrix['13'] && matrix['11'] == 'x' && matrix['11'] != '') ||
+    (matrix['21'] == matrix['22'] && matrix['22'] == matrix['23'] && matrix['21'] == 'x' && matrix['21'] != '') ||
+    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['31'] == 'x' && matrix['31'] != '') ||
 
-    (matrix['11'] == matrix['21'] && matrix['21'] == matrix['31'] && matrix['11'] != '') ||
-    (matrix['12'] == matrix['22'] && matrix['22'] == matrix['32'] && matrix['12'] != '') ||
-    (matrix['13'] == matrix['23'] && matrix['23'] == matrix['33'] && matrix['13'] != '') ||
+    (matrix['11'] == matrix['21'] && matrix['21'] == matrix['31'] && matrix['11'] == 'x' && matrix['11'] != '') ||
+    (matrix['12'] == matrix['22'] && matrix['22'] == matrix['32'] && matrix['12'] == 'x' && matrix['12'] != '') ||
+    (matrix['13'] == matrix['23'] && matrix['23'] == matrix['33'] && matrix['13'] == 'x' && matrix['13'] != '') ||
 
-    (matrix['11'] == matrix['22'] && matrix['22'] == matrix['33'] && matrix['11'] != '') ||
-    (matrix['31'] == matrix['22'] && matrix['22'] == matrix['13'] && matrix['31'] != '')
+    (matrix['11'] == matrix['22'] && matrix['22'] == matrix['33'] && matrix['11'] == 'x' && matrix['11'] != '') ||
+    (matrix['31'] == matrix['22'] && matrix['22'] == matrix['13'] && matrix['31'] == 'x' && matrix['31'] != '')
     )
     {
-      io.sockets.emit('gameover', xo);
+      io.sockets.emit('gameover1', xo);
+    }
+
+    if( (matrix['11'] == matrix['12'] && matrix['12'] == matrix['13'] && matrix['11'] == 'o' && matrix['11'] != '') ||
+    (matrix['21'] == matrix['22'] && matrix['22'] == matrix['23'] && matrix['21'] == 'o' && matrix['21'] != '') ||
+    (matrix['31'] == matrix['32'] && matrix['32'] == matrix['33'] && matrix['31'] == 'o' && matrix['31'] != '') ||
+
+    (matrix['11'] == matrix['21'] && matrix['21'] == matrix['31'] && matrix['11'] == 'o' && matrix['11'] != '') ||
+    (matrix['12'] == matrix['22'] && matrix['22'] == matrix['32'] && matrix['12'] == 'o' && matrix['12'] != '') ||
+    (matrix['13'] == matrix['23'] && matrix['23'] == matrix['33'] && matrix['13'] == 'o' && matrix['13'] != '') ||
+
+    (matrix['11'] == matrix['22'] && matrix['22'] == matrix['33'] && matrix['11'] == 'o' && matrix['11'] != '') ||
+    (matrix['31'] == matrix['22'] && matrix['22'] == matrix['13'] && matrix['31'] == 'o' && matrix['31'] != '')
+    )
+    {
+      io.sockets.emit('gameover2', xo);
     }
   });
 
