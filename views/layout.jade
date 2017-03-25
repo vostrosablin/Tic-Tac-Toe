@@ -17,7 +17,7 @@ html
        label: 'x'
      }
 
-     if( player.name == '' ) player.name = 'Vasya Pupkin';
+     if( player.name == null ) player.name = 'Vasya Pupkin';
 
      socket.on('connect', function () {
        socket.emit('client_connected', player);
